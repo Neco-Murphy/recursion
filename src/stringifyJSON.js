@@ -4,4 +4,36 @@
 // but you don't so you're going to write it from scratch:
 var stringifyJSON = function(obj) {
   // your code goes here
+	if(obj === null){
+		return "'" + obj + "'";
+	}else{
+		switch(typeof obj){
+			case "string":
+				return "'" + obj +"'";
+				break;
+
+  			case "function":
+  				break;
+
+	  		case "object":
+  				if(obj.isArray()){
+  					var output = [];
+  					for(var i=0; i<obj.length; i++){
+  						output.push(stringifyJSON(obj[i]));
+  					};
+  					return "'" + output + "'";
+  				} else {
+  					var output = {};
+  					for(var key in obj){
+  						output[stringifyJSON(key)] = stringifyJSON(obj);
+  					};
+  					return "'" + output + "'";
+  				};
+  				break;
+
+  			default:
+  				return obj;
+  				break;
+  		};
+	};
 };
