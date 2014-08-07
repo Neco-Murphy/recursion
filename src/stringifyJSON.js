@@ -5,11 +5,19 @@
 var stringifyJSON = function(obj) {
   // your code goes here
 	if(obj === null){
-		return "'" + obj + "'";
-	}else{
+		return "null";
+	}else
 		switch(typeof obj){
 			case "string":
 				return "'" + obj +"'";
+				break;
+
+			case"boolean":
+				return obj ? "true":"false";
+				break;
+
+			case "number":
+				return obj.toString();
 				break;
 
   			case "function":
@@ -31,9 +39,8 @@ var stringifyJSON = function(obj) {
   				};
   				break;
 
-  			default:
-  				return obj;
-  				break;
-  		};
-	};
+  			// default:
+  			// 	return obj;
+  			// 	break;
+  	};
 };
