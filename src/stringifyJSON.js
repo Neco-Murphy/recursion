@@ -5,42 +5,44 @@
 var stringifyJSON = function(obj) {
   // your code goes here
 	if(obj === null){
-		return "null";
-	}else
-		switch(typeof obj){
-			case "string":
-				return "'" + obj +"'";
-				break;
+  		return "null";
+	}else if(typeof obj === "number"){
+		return obj.toString();
+	}else if(typeof obj === "boolean"){
+		return obj ? "true":"false";
+	}else{
+		var check = function (obj){
+			switch(typeof obj){
+  				case "string":
+  					return '"' + obj +'"';
+  					break;
 
-			case"boolean":
-				return obj ? "true":"false";
-				break;
-
-			case "number":
-				return obj.toString();
-				break;
-
-  			case "function":
-  				break;
-
-	  		case "object":
-  				if(obj.isArray()){
-  					var output = [];
-  					for(var i=0; i<obj.length; i++){
-  						output.push(stringifyJSON(obj[i]));
+	  			case "object":
+  					if(Array.isArray(obj)){
+  						var output = [];
+  						if(obj.length != 0){
+	  						for(var i=0; i<obj.length; i++){
+  								output.push(check(obj[i]));
+  							};
+  						};
+  						return '[' + output + ']';
+  					} else {
+  						var output = {};
+  						for(var key in obj){
+  							alert();
+  							output[check(key)] = check(obj);
+  						};
+  						return '{' + output + '}';
   					};
-  					return "'" + output + "'";
-  				} else {
-  					var output = {};
-  					for(var key in obj){
-  						output[stringifyJSON(key)] = stringifyJSON(obj);
-  					};
-  					return "'" + output + "'";
-  				};
-  				break;
+  					break;
 
-  			// default:
-  			// 	return obj;
-  			// 	break;
+  				//case number, string, boolean
+  				default:
+  					return obj;
+  					break;
+  			};
+  		};
+  		return check(obj);
   	};
 };
+
