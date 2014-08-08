@@ -22,21 +22,30 @@ var stringifyJSON = function(obj) {
   						var output = [];
   						if(obj.length != 0){
 	  						for(var i=0; i<obj.length; i++){
-  								output.push(check(obj[i]));
+	  							var ele = obj[i];
+	  							if( typeof ele != "function" && typeof ele != 'undefined'){
+  								output.push(check(ele));
+  								};
   							};
   						};
   						return '[' + output + ']';
   					} else {
-  						var output = {};
-  						for(var key in obj){
-  							alert();
-  							output[check(key)] = check(obj);
+  						if(obj === null){
+  							return null;
   						};
-  						return '{' + output + '}';
+  						var output = [];
+  						for(var key in obj){
+  							var prop = obj[key];
+  							if( typeof prop != "function" && typeof prop != 'undefined'){
+  								output.push( check(key) + ':'+ check(prop));
+  							};
+  						};
+  						return output.length === 0 ? '{}': '{' + output.join(',') + '}';
   					};
   					break;
 
-  				//case number, string, boolean
+
+  				//case number, boolean
   				default:
   					return obj;
   					break;
