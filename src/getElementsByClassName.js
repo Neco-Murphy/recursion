@@ -14,27 +14,36 @@ var getElementsByClassName = function(className){
 		output.push(body);
 	};
 
+	//a function to check the array of nodes if it has the targeted class
+	var checkClass = function(arr){
+		var list = arr.classList;
+		for(var z=0; z<list.length; z++){
+			if(list[z] === className){
+				output.push(arr[i]);
+			};
+	};
+
 	//check direct children of body
 	var directs = body_.childNodes;
 	for(var i=1; i<directs.length; i+2){
-		var list = directs[i].classList;
-		for(var j=0; j<list.length; j++){
-			if(list[j] === className){
-				output.push(directs[i]);
-			};
+		checkClass(directs);
 		};
 	};
 
 	//check smaller than grandchildren
-	// var classCheck = function(inside){
-	// 	for(var i=0; i<inside.childNodes.length; i++){
-	// 		if(body.classList[i] === className){
-	// 			return output.push(body);
-	// 		};
-	// 	};
-	// 	return output;
-	// };
+	var check = function(stage){
+		if(stage.length != 0){
+			for(var a=0; a<stage.length; a++){
+				var nodelist = stage[a].childNodes;
+				for(var k=0; k<nodelist.length; k++){
+					checkClass(nodelist);
+				};
+			};	
+		};
+	};
 
-	// body.classCheck(body);
+	check(directs);
+	return output;
+	
 
 };
