@@ -6,44 +6,35 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
   // your code here
-	var output = [];
-	var body_ = document.body;
-
+	var output=[];
+	var main = document.body;
+	
 	// check body itself first
-	if(body_.classList === [className]){
-		output.push(body);
+	if(main.classList.contains(className)){
+		output.push(main);
 	};
 
 	//a function to check the element if it has the targeted class
 	var checkClass = function(ele){
 		var list = ele.classList;
-		for(var z=0; z<list.length; z++){
-			if(list[z] === className){
+		if(list && list.contains(className)){
 				output.push(ele);
-			};
-		};
+		}
 	};
 
-	// //check direct children of body
-	var directs = body_.childNodes;
-	for(var i=1; i < directs.length; i=i+2){
-		checkClass(directs[i]);
-	};
-
-	//check smaller than grandchildren
+	// //check children
 	var check = function(stage){
-		if(stage.length != 0){
-			for(var j=0; j<stage.length; j++){
-				var nodelist = stage[j].childNodes;
-				for(var k=0; k<nodelist.length; k++){
-					checkClass(nodelist[k]);
-				};
-			};	
-		};
-	};
+		var directs = stage.childNodes;
+		if(directs.length != 0){
+			for(var i=0; i < directs.length; i++){
+				checkClass(directs[i]);
+				check(directs[i]);
+			};
 
-	check(directs);
+		};
+	}
+
+	check(main);
 	return output;
 	
-
 };
